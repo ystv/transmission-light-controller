@@ -9,7 +9,7 @@ See [transmission-light](https://github.com/ystv/transmission-light)
 
 ## Image of desk push-buttons
 
-(image)
+(image soon to come)
 
 ## Schematic
 
