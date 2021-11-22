@@ -23,6 +23,7 @@ GPIO.output(14, LOW)
 
 print('Ben says to \"log shit\"...\nFine')
 
+
 def error_thread():
     for i in range(24):
         GPIO.output(14, (i + 1) % 2)
@@ -43,7 +44,7 @@ while True:
         except:
             error = threading.Thread(target=error_thread)
             error.start()
-    if GPIO.input(25):
+    elif GPIO.input(25):
         try:
             print('Attempting transmission on...')
             r = requests.get('http://txlight.ystv.york.ac.uk/?transmission_on')
@@ -56,7 +57,7 @@ while True:
         except:
             error = threading.Thread(target=error_thread)
             error.start()
-    if GPIO.input(11):
+    elif GPIO.input(11):
         try:
             print('Attempting rehearsal transmission on...')
             r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_on')
@@ -69,7 +70,7 @@ while True:
         except:
             error = threading.Thread(target=error_thread)
             error.start()
-    if GPIO.input(8):
+    elif GPIO.input(8):
         try:
             print('Attempting rehearsal transmission off...')
             r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_off')
