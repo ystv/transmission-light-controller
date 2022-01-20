@@ -21,8 +21,6 @@ GPIO.setup(8, GPIO.IN)
 GPIO.setup(14, GPIO.OUT)
 GPIO.output(14, LOW)
 
-print('Ben says to \"log shit\"...\nFine')
-
 
 def error_thread():
     for i in range(24):
@@ -30,56 +28,71 @@ def error_thread():
         time.sleep(0.2)
 
 
+def rehearsal_on(channel):
+    try:
+        print('Attempting rehearsal on...')
+        r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_on')
+        if not r.status_code == 204:
+            print('Rehearsal on fail!')
+            error = threading.Thread(target=error_thread)
+            error.start()
+        else:
+            print('Rehearsal on success!')
+    except:
+        error = threading.Thread(target=error_thread)
+        error.start()
+
+def transmission_on(channel):
+    try:
+        print('Attempting transmission on...')
+        r = requests.get('http://txlight.ystv.york.ac.uk/?transmission_on')
+        if not r.status_code == 204:
+            print('Transmission on fail!')
+            error = threading.Thread(target=error_thread)
+            error.start()
+        else:
+            print('Transmission on success!')
+    except:
+        error = threading.Thread(target=error_thread)
+        error.start()
+
+
+def rehearsal_transmission_on(channel):
+    try:
+        print('Attempting rehearsal transmission on...')
+        r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_on')
+        if not r.status_code == 204:
+            print('Rehearsal transmission on fail!')
+            error = threading.Thread(target=error_thread)
+            error.start()
+        else:
+            print('Rehearsal transmission on success!')
+    except:
+        error = threading.Thread(target=error_thread)
+        error.start()
+
+
+def rehearsal_transmission_off(channel):
+    try:
+        print('Attempting rehearsal transmission off...')
+        r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_off')
+        if not r.status_code == 204:
+            print('Rehearsal transmission off fail!')
+            error = threading.Thread(target=error_thread)
+            error.start()
+        else:
+            print('Rehearsal transmission off success!')
+    except:
+        error = threading.Thread(target=error_thread)
+        error.start()
+
+
+print('Ben says to \"log shit\"...\nFine')
+
+GPIO.add_event_detect(9, GPIO.RISING, callback=rehearsal_on)
+GPIO.add_event_detect(25, GPIO.RISING, callback=transmission_on)
+GPIO.add_event_detect(11, GPIO.RISING, callback=rehearsal_transmission_on)
+GPIO.add_event_detect(8, GPIO.RISING, callback=rehearsal_transmission_off)
+
 while True:
-    if GPIO.input(9):
-        try:
-            print('Attempting rehearsal on...')
-            r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_on')
-            if not r.status_code == 204:
-                print('Rehearsal on fail!')
-                error = threading.Thread(target=error_thread)
-                error.start()
-            else:
-                print('Rehearsal on success!')
-        except:
-            error = threading.Thread(target=error_thread)
-            error.start()
-    elif GPIO.input(25):
-        try:
-            print('Attempting transmission on...')
-            r = requests.get('http://txlight.ystv.york.ac.uk/?transmission_on')
-            if not r.status_code == 204:
-                print('Transmission on fail!')
-                error = threading.Thread(target=error_thread)
-                error.start()
-            else:
-                print('Transmission on success!')
-        except:
-            error = threading.Thread(target=error_thread)
-            error.start()
-    elif GPIO.input(11):
-        try:
-            print('Attempting rehearsal transmission on...')
-            r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_on')
-            if not r.status_code == 204:
-                print('Rehearsal transmission on fail!')
-                error = threading.Thread(target=error_thread)
-                error.start()
-            else:
-                print('Rehearsal transmission on success!')
-        except:
-            error = threading.Thread(target=error_thread)
-            error.start()
-    elif GPIO.input(8):
-        try:
-            print('Attempting rehearsal transmission off...')
-            r = requests.get('http://txlight.ystv.york.ac.uk/?rehearsal_transmission_off')
-            if not r.status_code == 204:
-                print('Rehearsal transmission off fail!')
-                error = threading.Thread(target=error_thread)
-                error.start()
-            else:
-                print('Rehearsal transmission off success!')
-        except:
-            error = threading.Thread(target=error_thread)
-            error.start()
+    time.sleep(60)
